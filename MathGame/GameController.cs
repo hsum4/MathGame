@@ -9,20 +9,8 @@ namespace MathGame
     class GameController
     {
         Random r = new Random();
-        private int firstNum;
-        private int FirstNum
-        {
-            get { return firstNum; }
-            set { firstNum = r.Next(0, 100); }
-        }
-
-        private int secondNum;
-        private int SecondNum
-        {
-            get { return secondNum; }
-
-            set { secondNum = r.Next(0, 100); }
-        }
+        private int FirstNum { get; set; }
+        private int SecondNum { get; set; }
 
         private string? PlayerAnswer { get; set; }
         private int PlayerScore { get; set; }
@@ -31,9 +19,17 @@ namespace MathGame
 
         public void generateNumbers()
         {
-            FirstNum = 0;
-            SecondNum = 0;
+            FirstNum = r.Next(0, 100);
+            SecondNum = r.Next(0, 100);
         }
+        public void generateNumbersForDivision()
+        {
+            SecondNum = r.Next(1, 101);
+            int maxQuotient = 100 / SecondNum;
+            int quotient = r.Next(1, maxQuotient + 1);
+            FirstNum = SecondNum * quotient;
+        }
+
 
         public void Play()
         {
@@ -48,6 +44,7 @@ namespace MathGame
                     case "add": PlayAdd(); break;
                     case "sub": PlaySub(); break;
                     case "mul": PlayMul(); break;
+                    case "div": PlayDiv(); break;
                     case "list": ShowList(); break;
                     case "exit": loop = false; break;
                 }
@@ -67,7 +64,15 @@ namespace MathGame
             bool keepPlaying = true;
             while (keepPlaying)
             {
-                generateNumbers();
+                if(mode == "+" || mode == "-" || mode == "*")
+                {
+                    generateNumbers();
+                }
+                else
+                {
+                    generateNumbersForDivision();
+                }
+
                 int correctAnswer = operation(FirstNum, SecondNum);
                 string problem = $"{FirstNum} {mode} {SecondNum} = ?";
                 Console.WriteLine(problem);
@@ -113,6 +118,9 @@ namespace MathGame
         {
             PlayMode((a, b) => a * b, "*");
         }
-
+        public void PlayDiv()
+        {
+            PlayMode((a, b) => a / b, "/");
+        }
     }
 }
