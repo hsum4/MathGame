@@ -27,6 +27,8 @@ namespace MathGame
         private string? PlayerAnswer { get; set; }
         private int PlayerScore { get; set; }
 
+        private Dictionary<string, int>? Rounds { get; set; } = new Dictionary<string, int>();
+
         public void generateNumbers()
         {
             FirstNum = 0;
@@ -46,8 +48,17 @@ namespace MathGame
                     case "add": PlayAdd(); break;
                     case "sub": PlaySub(); break;
                     case "mul": PlayMul(); break;
+                    case "list": ShowList(); break;
                     case "exit": loop = false; break;
                 }
+            }
+        }
+
+        public void ShowList()
+        {
+            foreach (var pair in Rounds)
+            {
+                Console.WriteLine($"Problem: {pair.Key}, Answer: {pair.Value}");
             }
         }
 
@@ -58,7 +69,8 @@ namespace MathGame
             {
                 generateNumbers();
                 int correctAnswer = operation(FirstNum, SecondNum);
-                Console.WriteLine($"{FirstNum} {mode} {SecondNum} = ?");
+                string problem = $"{FirstNum} {mode} {SecondNum} = ?";
+                Console.WriteLine(problem);
                 PlayerAnswer = Console.ReadLine();
                 try
                 {
@@ -70,6 +82,7 @@ namespace MathGame
                     else if (Convert.ToInt32(PlayerAnswer) == correctAnswer)
                     {
                         Console.WriteLine("You got it!");
+                        Rounds.Add(problem, Convert.ToInt32(PlayerAnswer));
                         PlayerScore++;
                     }
                     else
