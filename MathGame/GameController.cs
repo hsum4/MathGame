@@ -33,6 +33,24 @@ namespace MathGame
             SecondNum = 0;
         }
 
+        public void Play()
+        {
+            bool loop = true;
+            while(loop)
+            {
+                Console.WriteLine("Type the mode you want to play or type 'list' to see the list of rounds you have played.");
+                string answer = Console.ReadLine();
+
+                switch (answer)
+                {
+                    case "add": PlayAdd(); break;
+                    case "sub": PlaySub(); break;
+                    case "mul": PlayMul(); break;
+                    case "exit": loop = false; break;
+                }
+            }
+        }
+
         public void PlayMode(Func<int,int,int> operation, string mode)
         {
             bool keepPlaying = true;
@@ -47,7 +65,7 @@ namespace MathGame
                     if (PlayerAnswer == "exit")
                     {
                         Console.WriteLine("goodbye");
-                        return;
+                        return; ;
                     }
                     else if (Convert.ToInt32(PlayerAnswer) == correctAnswer)
                     {
@@ -70,9 +88,18 @@ namespace MathGame
             }
         }
 
-        public void addRound()
+        public void PlayAdd()
         {
             PlayMode((a, b) => a + b, "+");
         }
+        public void PlaySub()
+        {
+            PlayMode((a, b) => a - b, "-");
+        }
+        public void PlayMul()
+        {
+            PlayMode((a, b) => a * b, "*");
+        }
+
     }
 }

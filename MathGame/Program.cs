@@ -2,4 +2,4 @@
 
 GameController game = new GameController();
 
-game.addRound();
+game.Play();
